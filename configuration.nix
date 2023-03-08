@@ -40,6 +40,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver = {
+    videoDrivers = [ "modesetting" "displaylink" ];
     displayManager = {
       sddm.enable = true;
       defaultSession = "none+awesome";
@@ -54,7 +55,10 @@
   };
 
 
-  
+  fonts.fonts = with pkgs; [
+    fira-code
+    fira-code-symbols
+  ]; 
 
   # Configure keymap in X11
   services.xserver.layout = "pl";
@@ -72,6 +76,7 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
+  services.xserver.libinput.touchpad.naturalScrolling = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.max = {
@@ -91,6 +96,19 @@
       i3lock
       rocketchat-desktop
       slack
+      python310
+      feh
+      ripgrep
+      bat
+      fd
+      tldr
+      yq
+      procs
+      sd
+      btop
+      tree
+      usbutils
+      font-manager
     ];
     initialPassword = "nixos";
   };
@@ -100,6 +118,7 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    python310Packages.mysql-connector
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -117,6 +136,11 @@
     enable = false;
     passwordAuthentication = false;
   };
+
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
+  programs.ssh.startAgent = true;
+  environment.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
