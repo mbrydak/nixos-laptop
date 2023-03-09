@@ -109,6 +109,12 @@
       tree
       usbutils
       font-manager
+      bitwarden-cli
+      xclip
+      via
+      xfce.xfce4-battery-plugin
+      newsboat
+      obsidian
     ];
     initialPassword = "nixos";
   };
@@ -121,6 +127,11 @@
     python310Packages.mysql-connector
   ];
 
+  environment.interactiveShellInit = ''
+  alias xclip="xclip -selection clipboard"
+  eval $(/run/wrappers/bin/gnome-keyring-daemon --start --components=ssh)
+'';
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -128,7 +139,7 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
+  programs.light.enable = true;
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
@@ -136,6 +147,16 @@
     enable = false;
     passwordAuthentication = false;
   };
+  
+  services.power-profiles-daemon.enable = true;
+
+  services.thermald.enable = true;
+
+  powerManagement.powertop.enable = true;
+
+  services.acpid.enable = true;
+
+  services.upower.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
