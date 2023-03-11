@@ -40,7 +40,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver = {
-    videoDrivers = [ "modesetting" "displaylink" ];
+    videoDrivers = [ "nvidia" "intel" "modesetting" "displaylink" ];
     displayManager = {
       sddm.enable = true;
       defaultSession = "none+awesome";
@@ -115,6 +115,7 @@
       xfce.xfce4-battery-plugin
       newsboat
       obsidian
+      discord
     ];
     initialPassword = "nixos";
   };
@@ -140,6 +141,8 @@
   #   enableSSHSupport = true;
   # };
   programs.light.enable = true;
+
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
