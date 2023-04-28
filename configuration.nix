@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+# `Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -10,16 +10,16 @@
       ./hardware-configuration.nix
     ];
 
+  # allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  
-  nixpkgs.config.allowUnfree = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.wireless.userControlled.enable = true;
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
@@ -31,34 +31,50 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-   console = {
-     font = "Lat2-Terminus16";
-   #  keyMap = "us";
-     useXkbConfig = true; # use xkbOptions in tty.
-   };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver = {
-    videoDrivers = [ "nvidia" "intel" "modesetting" "displaylink" ];
-    displayManager = {
-      sddm.enable = true;
-      defaultSession = "none+awesome";
-    };
-    windowManager.awesome = {
-      enable = true;
-      luaModules = with pkgs.luaPackages; [
-        luarocks
-        luadbi-mysql
-      ];
-    };
+  console = {
+    # font = "Lat2-Terminus16";
+    # keyMap = "us";
+    useXkbConfig = true; # use xkbOptions in tty.
   };
 
+  # Enable the X11 windowing system.
+  services.xserver = {
+    enable = true;
 
-  fonts.fonts = with pkgs; [
-    fira-code
-    fira-code-symbols
-  ]; 
+    desktopManager = {
+      xterm.enable = false;
+    };
+
+    displayManager = {
+      defaultSession = "none+i3";
+      sessionCommands = ''
+        $(lib.getBin pkgs.xorg.xrandr)/bin/xrandr --setprovideroutputsource 2 0
+      '';
+    };
+
+    windowManager.i3 = {
+      enable = true;
+      package = pkgs.i3-gaps;
+      extraPackages = with pkgs; [
+        dmenu
+        i3status
+        i3lock
+        i3blocks
+        lxappearance
+      ];
+    };
+    videoDrivers = [ "intel" "displaylink" ];
+    deviceSection = ''
+      Option "DRI" "2"
+      Option "TearFree" "true"
+    '';
+  };
+
+  services.picom.enable = true;
+
+  services.autorandr = {
+    enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver.layout = "pl";
@@ -72,52 +88,62 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+    package = pkgs.pulseaudioFull;
+    extraConfig = "
+      load-module module-switch-on-connect
+      load-module module-bluetooth-discover
+    ";
+  };
+
+  # Enable bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
-  services.xserver.libinput.touchpad.naturalScrolling = true;
+
+  # Enable bluetooth service
+  services.blueman.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.max = {
+    initialPassword = "nixos123";
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
       thunderbird
-      pavucontrol
-      git
-      termite
-      tmux
-      networkmanagerapplet
+      python311
+      python27
       arandr
-      blueberry
-      vscode-fhs
-      i3lock
       rocketchat-desktop
       slack
-      python310
-      feh
+      spotify
+      bitwarden
+      sshuttle
+      git
+      kitty
+      tmux
+      pavucontrol
+      taskwarrior
+      timewarrior
+      neovim
       ripgrep
-      bat
       fd
-      tldr
-      yq
-      procs
-      sd
-      btop
+      tig
       tree
-      usbutils
-      font-manager
-      bitwarden-cli
-      xclip
-      via
-      xfce.xfce4-battery-plugin
-      newsboat
-      obsidian
-      discord
+      logseq
+      neofetch
     ];
-    initialPassword = "nixos";
   };
 
   # List packages installed in system profile. To search, run:
@@ -125,46 +151,28 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    python310Packages.mysql-connector
+    blueberry
+    networkmanager_dmenu
+    networkmanagerapplet
   ];
 
-  environment.interactiveShellInit = ''
-  alias xclip="xclip -selection clipboard"
-  eval $(/run/wrappers/bin/gnome-keyring-daemon --start --components=ssh)
-'';
+  environment.pathsToLink = ["/libexec"];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-  programs.light.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+     enableSSHSupport = true;
+  };
+  programs.dconf.enable = true;
+  programs.bash.interactiveShellInit = "neofetch";
 
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = false;
-    passwordAuthentication = false;
-  };
-  
-  services.power-profiles-daemon.enable = true;
-
-  services.thermald.enable = true;
-
-  powerManagement.powertop.enable = true;
-
-  services.acpid.enable = true;
-
-  services.upower.enable = true;
-
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
-  programs.ssh.startAgent = true;
-  environment.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -185,7 +193,17 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 
-  virtualisation.docker.enable = true;
 
+  # enable xdg desktop integration
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+    };
+  };
 }
 
