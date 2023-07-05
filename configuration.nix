@@ -63,7 +63,8 @@
         lxappearance
       ];
     };
-    videoDrivers = [ "intel" "displaylink" ];
+#    videoDrivers = [ "intel" "displaylink" ];
+    videoDrivers = [ "intel" ];
     deviceSection = ''
       Option "DRI" "2"
       Option "TearFree" "true"
@@ -123,7 +124,6 @@
       firefox
       thunderbird
       python311
-      python27
       arandr
       rocketchat-desktop
       slack
@@ -137,12 +137,14 @@
       taskwarrior
       timewarrior
       neovim
+      emacs
       ripgrep
       fd
       tig
       tree
       logseq
       neofetch
+      obsidian
     ];
   };
 
