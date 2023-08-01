@@ -18,6 +18,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
+  networking.nameservers = ["1.1.1.1" "1.1.1.1"];
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -36,6 +37,13 @@
     # keyMap = "us";
     useXkbConfig = true; # use xkbOptions in tty.
   };
+  virtualisation.docker.enable = true;
+#  services.resolved = {
+#    enable = true;
+#    dnssec = "false";
+#    domains = ["~."];
+#    fallbackDns = ["1.1.1.1#one.one.one.one" "1.1.1.1#one.one.one.one"];
+#  };
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -72,6 +80,15 @@
   };
 
   services.picom.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.lightdm.enableGnomeKeyring = true;
+  programs.ssh.startAgent = true;
+
+  programs.steam = {
+  enable = true;
+  remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+  dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+};
 
   services.autorandr = {
     enable = true;
@@ -79,10 +96,7 @@
 
   # Configure keymap in X11
   services.xserver.layout = "pl";
-  # services.xserver.xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
+    services.xserver.xkbOptions = "caps:escape";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -119,32 +133,83 @@
   users.users.max = {
     initialPassword = "nixos123";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
-      thunderbird
+      chromium
+      emacs
+      ansible
       python311
       arandr
       rocketchat-desktop
       slack
       spotify
       bitwarden
+      poppler_utils
+      bash-completion
       sshuttle
+      libgen-cli
+      sshpass
       git
-      kitty
+      scrot
+      dive
+      file
+      du-dust
+      direnv
+      puppet-lint
+      unzip
+      zip
+      poetry
+      alacritty
+      stow
+      croc
       tmux
       pavucontrol
-      taskwarrior
-      timewarrior
       neovim
       emacs
       ripgrep
       fd
       tig
       tree
-      logseq
       neofetch
       obsidian
+      nodejs_20
+      vscode-fhs
+      gimp
+      k3d
+      nix-index
+      cloudflare-warp
+      kubectl
+      lens
+      k9s
+      kubernetes-helm
+      fluxcd
+      gnumake
+      qutebrowser
+      websocat
+      pciutils
+      xclip
+      glow
+      dig
+      inetutils
+      traceroute
+      rsync
+      okular
+      tealdeer
+      zellij
+      bat
+      killall
+      feh
+      gccgo13
+      yq
+      jq
+      rustup
+      zoxide
+      fzf
+      go
+      jless
+      rofi
+      rofi-rbw
     ];
   };
 
@@ -158,15 +223,17 @@
     networkmanagerapplet
   ];
 
+  environment.shellAliases = {libgen = "libgen-cli";};
+
   environment.pathsToLink = ["/libexec"];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-     enableSSHSupport = true;
-  };
+  #programs.gnupg.agent = {
+  #  enable = true;
+  #   enableSSHSupport = true;
+  #};
   programs.dconf.enable = true;
   programs.bash.interactiveShellInit = "neofetch";
 
@@ -181,7 +248,10 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
+  networking.firewall = {
+  allowedUDPPorts = [ 5353 ]; # For device discovery
+  allowedUDPPortRanges = [{ from = 32768; to = 61000; }];   # For Streaming
+};
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
@@ -193,7 +263,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 
   # enable xdg desktop integration
@@ -208,4 +278,5 @@
     };
   };
 }
+
 
