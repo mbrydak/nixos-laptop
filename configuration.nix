@@ -3,10 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -18,10 +18,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  networking.nameservers = ["1.1.1.1" "1.1.1.1"];
+  networking.nameservers = [ "1.1.1.1" "1.1.1.1" ];
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -38,12 +38,12 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
   virtualisation.docker.enable = true;
-#  services.resolved = {
-#    enable = true;
-#    dnssec = "false";
-#    domains = ["~."];
-#    fallbackDns = ["1.1.1.1#one.one.one.one" "1.1.1.1#one.one.one.one"];
-#  };
+  #  services.resolved = {
+  #    enable = true;
+  #    dnssec = "false";
+  #    domains = ["~."];
+  #    fallbackDns = ["1.1.1.1#one.one.one.one" "1.1.1.1#one.one.one.one"];
+  #  };
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -71,7 +71,7 @@
         lxappearance
       ];
     };
-#    videoDrivers = [ "intel" "displaylink" ];
+    #    videoDrivers = [ "intel" "displaylink" ];
     videoDrivers = [ "intel" ];
     deviceSection = ''
       Option "DRI" "2"
@@ -83,12 +83,13 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.lightdm.enableGnomeKeyring = true;
   programs.ssh.startAgent = true;
+  programs.light.enable = true;
 
   programs.steam = {
-  enable = true;
-  remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-  dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-};
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
 
   services.autorandr = {
     enable = true;
@@ -96,7 +97,7 @@
 
   # Configure keymap in X11
   services.xserver.layout = "pl";
-    services.xserver.xkbOptions = "caps:escape";
+  services.xserver.xkbOptions = "caps:escape";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -151,6 +152,11 @@
       libgen-cli
       sshpass
       git
+      cue
+      cuelsp
+      kustomize
+      unityhub
+      sd
       scrot
       dive
       file
@@ -176,6 +182,8 @@
       nodejs_20
       vscode-fhs
       gimp
+      discord
+      dos2unix
       k3d
       nix-index
       cloudflare-warp
@@ -201,6 +209,7 @@
       killall
       feh
       gccgo13
+      bottom
       yq
       jq
       rustup
@@ -221,11 +230,13 @@
     blueberry
     networkmanager_dmenu
     networkmanagerapplet
+    nixpkgs-fmt
+
   ];
 
-  environment.shellAliases = {libgen = "libgen-cli";};
+  environment.shellAliases = { libgen = "libgen-cli"; };
 
-  environment.pathsToLink = ["/libexec"];
+  environment.pathsToLink = [ "/libexec" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -249,9 +260,9 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   networking.firewall = {
-  allowedUDPPorts = [ 5353 ]; # For device discovery
-  allowedUDPPortRanges = [{ from = 32768; to = 61000; }];   # For Streaming
-};
+    allowedUDPPorts = [ 5353 ]; # For device discovery
+    allowedUDPPortRanges = [{ from = 32768; to = 61000; }]; # For Streaming
+  };
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
