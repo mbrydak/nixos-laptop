@@ -53,20 +53,25 @@
   };
 
   services.xserver = {
-  displayManager = {
-    defaultSession = "none+i3";
-  };
-  windowManager.i3 = {
-    enable = true;
-    package = pkgs.i3-gaps;
-    extraPackages = with pkgs; [
-      dmenu
-      i3status
-      i3lock
-      i3blocks
-      lxappearance
-    ];
-  };
+    displayManager = {
+      defaultSession = "none+i3";
+    };
+    windowManager.i3 = {
+      enable = true;
+      package = pkgs.i3-gaps;
+      extraPackages = with pkgs; [
+        dmenu
+        i3status
+        i3lock
+        i3blocks
+        lxappearance
+      ];
+    };
+    videoDrivers = ["intel"];
+    deviceSection = ''
+      Option "DRI" "2"
+      Option "TearFree" "true"
+    '';
   };
 
   environment.pathsToLink = [ "/libexec" "/share/zsh" ];
@@ -137,6 +142,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
+      arandr
       firefox
       starship
       teams-for-linux
