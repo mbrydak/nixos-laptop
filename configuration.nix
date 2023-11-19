@@ -52,6 +52,21 @@
     LC_TIME = "pl_PL.UTF-8";
   };
 
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 60;
+    };
+  };
   services.xserver = {
     displayManager = {
       defaultSession = "none+i3";
@@ -139,17 +154,14 @@
   users.users.max = {
     isNormalUser = true;
     description = "max";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       arandr
       firefox
       starship
       teams-for-linux
-      vivaldi
-      vivaldi-ffmpeg-codecs
       git
-      neovim
       slack
       spotify
       bitwarden
@@ -158,15 +170,14 @@
       unzip
       zip
       tmux
+      zellij
       pavucontrol
       obsidian
-      vscode-fhs
       gimp
       discord
       cloudflare-warp
       kubernetes-helm
       k9s
-      lens
       kubectl
       inetutils
       traceroute
@@ -180,7 +191,32 @@
       nil
       bluez
       blueberry
-    #  thunderbird
+      awscli2
+      thunderbird
+      ripgrep
+      obs-studio
+      buildpack
+      nix-index
+      fd
+      python3
+      anki
+      htop
+      pcmanfm
+      transmission-gtk
+      gnumake
+      go
+      calibre
+      k3d
+      fluxcd
+      argocd
+      terraform
+      tfsec
+      terraform-docs
+      croc
+      feh
+      shutter
+      du-dust
+      zathura
     ];
   };
 
@@ -205,7 +241,7 @@
   ];
 
   fonts.packages = with pkgs; [
-    nerdfonts
+    (nerdfonts.override {fonts = ["Hack"];})
   ];
 
   xdg.portal.enable = true;
@@ -226,6 +262,9 @@
   programs.zsh.enable = true;
 
   # List services that you want to enable:
+  # Enable Docker
+
+  virtualisation.docker.enable = true;
 
 
   # Enable the OpenSSH daemon.
