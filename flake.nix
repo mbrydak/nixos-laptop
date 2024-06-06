@@ -1,11 +1,17 @@
 {
   description = "Flaked NixOS Config";
 
-  outputs = { self, nixpkgs }: {
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+  };
 
-    nixosConfigurations.t480 = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, ... }@inputs: {
+
+    nixosConfigurations = {
+    t480 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [ ./configuration.nix ];
+    };
     };
 
   };

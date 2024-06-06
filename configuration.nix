@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -12,6 +12,15 @@
 
   # Nix config
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nix.optimise.automatic = true;
+
+  nix.gc = {
+  automatic = true;
+  dates = "weekly";
+  options = "--delete-older-than 30d";
+  };
+
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/nvme0n1";
@@ -20,11 +29,21 @@
   networking.hostName = "t480"; # Define your hostname.
   
   networking.hosts = {
-    "192.168.11.21" = ["bastion"];
+    "192.168.11.28" = ["bastion"];
     "192.168.11.167" = ["cntm"];
+  #  "192.168.0.77" = ["k8s-master-0.homelab.home"];
+  #  "192.168.0.116" = ["k8s-master-1.homelab.home"];
+  #  "192.168.0.220" = ["k8s-master-2.homelab.home"];
+  #  "192.168.0.27" = ["k8s-worker-0.homelab.home"];
+  #  "192.168.0.232" = ["k8s-worker-1.homelab.home"];
+  #  "192.168.0.84" = ["k8s-worker-2.homelab.home"];
+  #  "192.168.0.201" = ["pve.homelab.home"];
+  #  "192.168.0.57" = ["pihole.homelab.home"];
+  #  "192.168.0.78" = ["k8s-lb.homelab.home"];
   };
   
-  networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
+  # networking.nameservers = [ "1.1.1.1" "1.0.0.1" "192.168.0.57" ];
+  networking.nameservers = [ "192.168.0.57" ];
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -32,7 +51,13 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+  };
+
+  
+
+  services.resolved.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -52,6 +77,14 @@
     LC_TIME = "pl_PL.UTF-8";
   };
 
+  services = {
+    dbus = {
+      enable = true;
+      packages = [pkgs.dconf];
+    };
+  };
+
+
   services.tlp = {
     enable = true;
     settings = {
@@ -68,14 +101,19 @@
     };
   };
   services.xserver = {
-    displayManager = {
-      defaultSession = "none+i3";
+    enable = true;
+    libinput = {
+      enable = true;
+      touchpad = {
+        disableWhileTyping = true;
+      };
+      mouse.accelProfile = "flat";
     };
     windowManager.i3 = {
       enable = true;
       package = pkgs.i3-gaps;
       extraPackages = with pkgs; [
-        dmenu
+        
         i3status
         i3lock
         i3blocks
@@ -91,15 +129,16 @@
 
   environment.pathsToLink = [ "/libexec" "/share/zsh" ];
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    libinput = {
+  documentation = {
+    nixos.enable = true;
+    man = {
       enable = true;
-      mouse.accelProfile = "flat";
+      generateCaches = true;
     };
   };
 
+
+    services.locate.enable = true;
 
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
@@ -111,19 +150,34 @@
   security.pam.services.lightdm.enableGnomeKeyring= true;
   programs.ssh.startAgent = true;
 
+  programs.virt-manager.enable = true;
+
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "pl";
-    xkbVariant = "";
-    xkbOptions = "caps:escape";
+    xkb = {
+      layout = "pl";
+      variant = "";
+      options = "caps:escape";
+    }; 
   };
 
   # Configure console keymap
   console.keyMap = "pl2";
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      brlaser
+    ];
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -135,17 +189,30 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+    wireplumber = {
+      enable = true;
+      package = pkgs.wireplumber;
+    };
   };
 
   # Enable bluetooth and sound over bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
+
+  # Trackpoint settings
+
+  hardware.trackpoint = {
+    enable = true;
+    speed = 192;
+    sensitivity = 192;
+    emulateWheel = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -154,32 +221,67 @@
   users.users.max = {
     isNormalUser = true;
     description = "max";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "scanner" "lp" "libvirtd"];
     shell = pkgs.zsh;
     packages = with pkgs; [
       arandr
-      firefox
+      xorg.xbacklight
       starship
-      teams-for-linux
-      git
       slack
+      xournalpp
+      git
+      openconnect
+      openssl
+      networkmanager-openconnect
+      networkmanager
+      zellij
+      git-lfs
+      resumed
+      doctl
+      packer
+      ansible
+      terraform
+      resumed
+      archi
+      devbox
+      distrobox
+      transmission
+      gparted
+      bluetuith
+      dmenu
+      yq
+      jq
+      thunderbird
+      tree
+      zeal
+      zotero
+      cozy
+      foliate
+      ollama
+      llama-cpp
+      glow
+      jless
+      lm_sensors
+      hddtemp
       spotify
+      vlc
       bitwarden
       libgen-cli
       direnv
+      python311Packages.jmespath
       unzip
       zip
-      tmux
-      zellij
+      freshfetch
+      scrot
       pavucontrol
       obsidian
-      gimp
       discord
       cloudflare-warp
       kubernetes-helm
       k9s
       kubectl
       inetutils
+      usbutils
       traceroute
       dig
       rsync
@@ -192,34 +294,34 @@
       bluez
       blueberry
       awscli2
-      thunderbird
-      ripgrep
-      obs-studio
+      azure-cli
+      ssm-session-manager-plugin
+      google-chrome
+      go
+      firefox
       buildpack
       nix-index
       fd
-      python3
-      anki
+      ripgrep
       htop
       pcmanfm
-      transmission-gtk
       gnumake
-      go
+      zap
       calibre
       k3d
       fluxcd
       argocd
-      terraform
-      tfsec
-      terraform-docs
       croc
       feh
       shutter
+      csview
       du-dust
       zathura
     ];
   };
-
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+  ];
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -228,20 +330,16 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-  (waybar.overrideAttrs (oldAttrs: {
-    mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-  })
-  )
   mako
   libnotify
-  swww
   alacritty
-  rofi-wayland
-  wofi
+  rofi
   ];
 
   fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["Hack"];})
+    jost
+    ibm-plex
   ];
 
   xdg.portal.enable = true;
@@ -254,6 +352,10 @@
   #   enableSSHSupport = true;
   # };
 
+  services.xserver.displayManager = {
+    #enable = true;
+    defaultSession = "none+i3";
+  };
 
   # Switch to lightdm
   programs.light.enable = true; 
@@ -264,12 +366,20 @@
   # List services that you want to enable:
   # Enable Docker
 
-  virtualisation.docker.enable = true;
+  virtualisation = {
+    docker.enable = true;
+    libvirtd.enable = true;
+  };
 
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  networking.firewall = {
+    allowedUDPPorts = [ 5353 ]; # For device discovery
+    allowedUDPPortRanges = [{ from = 32768; to = 61000; }];   # For Streaming
+    allowedTCPPorts = [ 8010 ];  # For gnomecast server
+  };
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -282,6 +392,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
