@@ -44,6 +44,7 @@
     cloudflare-warp
     croc
     csview
+    dmenu
     delve
     devbox
     dig

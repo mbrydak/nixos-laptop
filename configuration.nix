@@ -22,6 +22,14 @@
     "flakes"
   ];
 
+  nix.settings = {
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+
   nix.optimise.automatic = true;
 
   nix.gc = {
@@ -191,7 +199,6 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -241,101 +248,7 @@
       "libvirtd"
     ];
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      arandr
-      xorg.xbacklight
-      starship
-      slack
-      xournalpp
-      git
-      openconnect
-      openssl
-      networkmanager-openconnect
-      networkmanager
-      zellij
-      git-lfs
-      resumed
-      doctl
-      packer
-      ansible
-      terraform
-      resumed
-      archi
-      devbox
-      distrobox
-      transmission
-      gparted
-      bluetuith
-      dmenu
-      yq
-      jq
-      thunderbird
-      tree
-      zeal
-      zotero
-      cozy
-      foliate
-      ollama
-      llama-cpp
-      glow
-      jless
-      lm_sensors
-      hddtemp
-      spotify
-      vlc
-      bitwarden
-      libgen-cli
-      direnv
-      python311Packages.jmespath
-      unzip
-      zip
-      freshfetch
-      scrot
-      pavucontrol
-      obsidian
-      discord
-      cloudflare-warp
-      kubernetes-helm
-      k9s
-      kubectl
-      inetutils
-      usbutils
-      traceroute
-      dig
-      rsync
-      tealdeer
-      bat
-      killall
-      zoxide
-      fzf
-      nil
-      bluez
-      blueberry
-      awscli2
-      ssm-session-manager-plugin
-      google-chrome
-      go
-      firefox
-      buildpack
-      nix-index
-      fd
-      ripgrep
-      htop
-      pcmanfm
-      gnumake
-      zap
-      calibre
-      k3d
-      fluxcd
-      argocd
-      feh
-      shutter
-      csview
-      du-dust
-      zathura
-      gh
-      neovim
-    ];
+    packages = with pkgs; [ ];
   };
   nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0" ];
   # Allow unfree packages
@@ -344,8 +257,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
     mako
     libnotify
     alacritty
@@ -366,6 +279,11 @@
   # programs.gnupg.agent = {
   #   enable = true;
   #   enableSSHSupport = true;
+  # };
+
+  # programs.hyprland = {
+  #   enable = true;
+  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   # };
 
   services.xserver.displayManager = {

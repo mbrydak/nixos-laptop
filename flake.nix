@@ -2,7 +2,7 @@
   description = "Flaked NixOS Config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     stylix.url = "github:danth/stylix";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -12,6 +12,7 @@
     #   url = "github:nix-community/nixvim";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
   };
 
   outputs =
@@ -26,6 +27,9 @@
 
       nixosConfigurations = {
         t480 = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
           system = "x86_64-linux";
           modules = [
             ./configuration.nix
