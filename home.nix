@@ -178,8 +178,6 @@
       enableVteIntegration = true;
       shellAliases = {
         gitroot = "cd $(git rev-parse --show-toplevel)";
-        v = "nvim";
-        vim = "nvim";
         nv = "nvim";
         k = "kubectl --";
       };
