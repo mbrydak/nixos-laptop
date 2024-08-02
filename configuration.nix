@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs ,... }:
 
 {
   imports =
@@ -57,6 +57,10 @@
 
   
 
+  stylix.enable = true;
+  
+  stylix.image = ./wallpaper.jpg;
+  
   services.resolved.enable = true;
 
   # Set your time zone.
@@ -250,6 +254,9 @@
       bluetuith
       dmenu
       yq
+      lutris
+      heroic
+      playonlinux
       jq
       thunderbird
       tree
@@ -311,12 +318,13 @@
       k3d
       fluxcd
       argocd
-      croc
       feh
       shutter
       csview
       du-dust
       zathura
+      gh
+      neovim
     ];
   };
   nixpkgs.config.permittedInsecurePackages = [
