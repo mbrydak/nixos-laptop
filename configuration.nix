@@ -66,7 +66,9 @@
 
   stylix.enable = true;
 
-  stylix.image = ./wallpaper.jpg;
+  stylix.image = ./wallpaper.jpeg;
+
+  stylix.polarity = "dark";
 
   services.resolved.enable = true;
 
@@ -266,9 +268,6 @@
       bluetuith
       dmenu
       yq
-      lutris
-      heroic
-      playonlinux
       jq
       thunderbird
       tree
@@ -313,7 +312,6 @@
       bluez
       blueberry
       awscli2
-      azure-cli
       ssm-session-manager-plugin
       google-chrome
       go
