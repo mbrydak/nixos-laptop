@@ -31,6 +31,7 @@
   };
 
   nix.optimise.automatic = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   nix.gc = {
     automatic = true;
@@ -74,11 +75,16 @@
 
   stylix.enable = true;
 
-  stylix.image = ./wallpaper.jpeg;
+  stylix.image = ./flcl-tv-robot.jpg;
 
   stylix.polarity = "dark";
 
   services.resolved.enable = true;
+  services.openssh.enable = true;
+  services.openssh.settings = {
+    PasswordAuthentication = true;
+  };
+
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -162,9 +168,8 @@
 
   services.locate.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  # Enable the SDDM Dispaly Manager
+  services.xserver.displayManager.sddm.enable = true;
 
   # enable picom
   services.picom.enable = true;
@@ -284,15 +289,13 @@
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    xwayland.enable = true;
   };
 
   services.xserver.displayManager = {
     #enable = true;
-    defaultSession = "none+i3";
+    defaultSession = "hyprland";
   };
-
-  # Switch to lightdm
-  programs.light.enable = true;
 
   # enalbe zsh
   programs.zsh.enable = true;

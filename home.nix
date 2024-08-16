@@ -83,6 +83,7 @@
     libgen-cli
     llama-cpp
     lm_sensors
+    mermaid-cli
     (nerdfonts.override { fonts = [ "Hack" ]; })
     networkmanager
     networkmanager-openconnect
@@ -105,6 +106,7 @@
     ssm-session-manager-plugin
     starship
     tealdeer
+    teams-for-linux
     thunderbird
     traceroute
     transmission_4
@@ -165,9 +167,23 @@
   };
 
   programs = {
+    vscode = {
+      enable = true;
+      package = pkgs.vscode.fhs;
+    };
+    qutebrowser = {
+      enable = true;
+    };
+    waybar = {
+      enable = true;
+    };
     carapace = {
       enable = true;
       enableNushellIntegration = true;
+    };
+
+    ranger = {
+      enable = true;
     };
 
     zsh = {
@@ -384,6 +400,9 @@
         };
       };
     };
+    wofi = {
+      enable = true;
+    };
     tmux = {
       enable = true;
       terminal = "xterm-256color";
@@ -441,6 +460,10 @@
         show-icons = true;
       };
       # theme = "gruvbox-dark-soft";
+    };
+
+    hyprlock = {
+      enable = true;
     };
 
   };
@@ -576,6 +599,94 @@
   dconf.settings = {
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "caps:escape" ];
+    };
+  };
+  wayland.windowManager.hyprland = {
+    enable = true;
+    settings = {
+      "$mainMod" = "SUPER";
+      "exec-once" = "waybar & hyprpaper & qutebrowser";
+      general = {
+        gaps_in = 5;
+        gaps_out = 20;
+        border_size = 2;
+        layout = "dwindle";
+      };
+      input = {
+        kb_layout = "pl";
+        touchpad = {
+          natural_scroll = "yes";
+        };
+      };
+      decoration = {
+        rounding = 10;
+        blur = {
+          enabled = true;
+          size = 3;
+          passes = 1;
+        };
+        drop_shadow = "yes";
+        shadow_range = 4;
+        shadow_render_power = 3;
+
+      };
+      dwindle = {
+        pseudotile = "yes";
+        preserve_split = "yes";
+
+      };
+      bind = [
+        "$mainMod, Q, exec, alacritty"
+        "$mainMod, C, killactive,"
+        "$mainMod, M, exit,"
+        "$mainMod, E, exec, dolphin"
+        "$mainMod, V, togglefloating,"
+        "$mainMod, R, exec, wofi --show drun"
+        "$mainMod, P, pseudo," # dwindle
+        "$mainMod, J, togglesplit," # dwindle
+
+        # Move focus with mainMod + arrow keys
+        "$mainMod, left, movefocus, l"
+        "$mainMod, right, movefocus, r"
+        "$mainMod, up, movefocus, u"
+        "$mainMod, down, movefocus, d"
+
+        # Switch workspaces with mainMod + [0-9]
+        "$mainMod, 1, workspace, 1"
+        "$mainMod, 2, workspace, 2"
+        "$mainMod, 3, workspace, 3"
+        "$mainMod, 4, workspace, 4"
+        "$mainMod, 5, workspace, 5"
+        "$mainMod, 6, workspace, 6"
+        "$mainMod, 7, workspace, 7"
+        "$mainMod, 8, workspace, 8"
+        "$mainMod, 9, workspace, 9"
+        "$mainMod, 0, workspace, 10"
+
+        # Move active window to a workspace with mainMod + SHIFT + [0-9]
+        "$mainMod SHIFT, 1, movetoworkspace, 1"
+        "$mainMod SHIFT, 2, movetoworkspace, 2"
+        "$mainMod SHIFT, 3, movetoworkspace, 3"
+        "$mainMod SHIFT, 4, movetoworkspace, 4"
+        "$mainMod SHIFT, 5, movetoworkspace, 5"
+        "$mainMod SHIFT, 6, movetoworkspace, 6"
+        "$mainMod SHIFT, 7, movetoworkspace, 7"
+        "$mainMod SHIFT, 8, movetoworkspace, 8"
+        "$mainMod SHIFT, 9, movetoworkspace, 9"
+        "$mainMod SHIFT, 0, movetoworkspace, 10"
+
+        # Scroll through existing workspaces with mainMod + scroll
+        "$mainMod, mouse_down, workspace, e+1"
+        "$mainMod, mouse_up, workspace, e-1"
+
+        # Move/resize windows with mainMod + LMB/RMB and dragging
+
+      ];
+      bindm = [
+        "$mainMod, mouse:272, movewindow"
+        "$mainMod, mouse:273, resizewindow"
+
+      ];
     };
   };
 }
