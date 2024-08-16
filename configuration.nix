@@ -79,6 +79,7 @@
 
   stylix.polarity = "dark";
 
+  services.syslog-ng.enable = true;
   services.resolved.enable = true;
   services.openssh.enable = true;
   services.openssh.settings = {
