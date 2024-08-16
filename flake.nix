@@ -43,8 +43,7 @@
             }
           ];
         };
-      };
-        hp840 = nixpkgs.lib.nixosSystem {
+                hp840 = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
           };
@@ -61,7 +60,8 @@
             }
           ];
         };
-      };      
+      };
+
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
     };
 }
