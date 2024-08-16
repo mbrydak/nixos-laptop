@@ -32,7 +32,7 @@
           };
           system = "x86_64-linux";
           modules = [
-            ./configuration.nix
+            ./hosts/t480/configuration.nix
             stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
 
@@ -44,6 +44,24 @@
           ];
         };
       };
+        hp840 = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/hp840/configuration.nix
+            stylix.nixosModules.stylix
+            home-manager.nixosModules.home-manager
+
+            {
+              home-manager.useGlobalPkgs = true;
+              # home-manager.useUserPackages = true;
+              home-manager.users.max = import ./home.nix;
+            }
+          ];
+        };
+      };      
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
     };
 }
