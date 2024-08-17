@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
   imports =
@@ -67,7 +67,7 @@
 
   stylix.enable = true;
 
-  stylix.image = ./flcl-tv-robot.jpg;
+  stylix.image = ./wallpaper/flcl-tv-robot.jpg;
 
   stylix.polarity = "dark";
 
