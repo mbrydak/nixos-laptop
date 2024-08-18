@@ -75,7 +75,7 @@
 
   stylix.enable = true;
 
-  stylix.image = ./flcl-tv-robot.jpg;
+  stylix.image = ./wallpaper/flcl-tv-robot.jpg;
 
   stylix.polarity = "dark";
 

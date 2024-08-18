@@ -234,7 +234,7 @@
     };
     git = {
       enable = true;
-      # delta.enable = true;
+      delta.enable = true;
       userEmail = "maxbrydak@gmail.com";
       userName = "mbrydak";
     };
