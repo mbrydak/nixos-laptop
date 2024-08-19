@@ -67,7 +67,7 @@
 
   stylix.enable = true;
 
-  stylix.image = ./wallpaper/anime-girl-skull.jpg;
+  stylix.image = ./wallpaper/anime-girl-skull.png;
 
   stylix.polarity = "dark";
 
