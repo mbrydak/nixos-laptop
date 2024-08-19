@@ -67,7 +67,7 @@
 
   stylix.enable = true;
 
-  stylix.image = ./wallpaper/flcl-tv-robot.jpg;
+  stylix.image = ./wallpaper/anime-girl-skull.jpg;
 
   stylix.polarity = "dark";
 
@@ -127,12 +127,16 @@
 
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
   services.picom.enable = true;
   services.gnome.gnome-keyring.enable = true;
   programs.ssh.startAgent = true;
   
+services.xserver.displayManager.gdm.enable = true;
+  environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID"; # set the runtime directory
+    security.pam.services.gdm-password.enableGnomeKeyring = true;
+
   services.printing = {
     enable = true;
     drivers = with pkgs; [ brlaser ];
