@@ -71,7 +71,7 @@
 
   stylix.enable = true;
 
-  stylix.image = ./wallpaper/anime-girl-face-mask-purple-eyes-twintails-hate-5k-79-5120x2880.jpg;
+  stylix.image = ./wallpaper/anime-girl-goth.png;
 
   stylix.polarity = "dark";
 

@@ -39,7 +39,6 @@
     autotiling
     bat
     bitwarden
-    blueberry
     brightnessctl
     cloudflare-warp
     croc
@@ -392,9 +391,9 @@
 
     alacritty = {
       enable = true;
-      settings = {
+      settings = pkgs.lib.mkForce {
         font = {
-          normal = pkgs.lib.mkForce {
+          normal = {
             family = "Hack Nerd Font Mono";
           };
         };
