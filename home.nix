@@ -394,7 +394,7 @@
       enable = true;
       settings = {
         font = {
-          normal = {
+          normal = pkgs.lib.mkForce {
             family = "Hack Nerd Font Mono";
           };
         };
