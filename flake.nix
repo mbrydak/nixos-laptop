@@ -43,7 +43,7 @@
             }
           ];
         };
-                hp840 = nixpkgs.lib.nixosSystem {
+        hp840 = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
           };

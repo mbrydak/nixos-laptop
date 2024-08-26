@@ -86,7 +86,6 @@
     PasswordAuthentication = true;
   };
 
-
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
 
@@ -267,7 +266,7 @@
     wget
     mako
     libnotify
-    alacritty
+    xterm
     rofi
   ];
 

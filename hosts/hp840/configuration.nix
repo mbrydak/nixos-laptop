@@ -2,13 +2,18 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Nix config
   nix.settings.experimental-features = [
@@ -60,19 +65,17 @@
     #  "192.168.0.201" = ["pve.homelab.home"];
     #  "192.168.0.57" = ["pihole.homelab.home"];
     #  "192.168.0.78" = ["k8s-lb.homelab.home"];
-  };  
+  };
 
   networking.nameservers = [ "192.168.0.57" ];
 
-
   stylix.enable = true;
 
-  stylix.image = ./wallpaper/anime-girl-skull.png;
+  stylix.image = ./wallpaper/anime-girl-face-mask-purple-eyes-twintails-hate-5k-79-5120x2880.jpg;
 
   stylix.polarity = "dark";
 
   services.resolved.enable = true;
-  
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -103,12 +106,24 @@
       };
       mouse.accelProfile = "flat";
     };
-    videoDrivers = [ "intel" ];
+
+    windowManager.i3 = {
+      enable = true;
+      package = pkgs.i3-gaps;
+      extraPackages = with pkgs; [
+
+        i3status
+        i3lock
+        i3blocks
+        lxappearance
+      ];
+    };
+    videoDrivers = [ "intel" "displaylink" "modesetting"];
     deviceSection = ''
       Option "DRI" "2"
       Option "TearFree" "true"
-    '';    
-    };
+    '';
+  };
 
   environment.pathsToLink = [
     "/libexec"
@@ -125,6 +140,7 @@
 
   services.locate.enable = true;
 
+  services.ollama.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   # services.displayManager.sddm.enable = true;
@@ -132,10 +148,10 @@
   services.picom.enable = true;
   services.gnome.gnome-keyring.enable = true;
   programs.ssh.startAgent = true;
-  
-services.xserver.displayManager.gdm.enable = true;
+
+  services.xserver.displayManager.gdm.enable = true;
   environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID"; # set the runtime directory
-    security.pam.services.gdm-password.enableGnomeKeyring = true;
+  security.pam.services.gdm-password.enableGnomeKeyring = true;
 
   services.printing = {
     enable = true;
@@ -160,11 +176,9 @@ services.xserver.displayManager.gdm.enable = true;
     };
   };
 
-
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
-
 
   # Configure keymap in X11
   services.xserver = {
@@ -174,7 +188,6 @@ services.xserver.displayManager.gdm.enable = true;
 
   # Configure console keymap
   console.keyMap = "pl2";
-
 
   # Enable sound with pipewire.
 
@@ -205,7 +218,7 @@ services.xserver.displayManager.gdm.enable = true;
     wget
     mako
     libnotify
-    alacritty
+    xterm
     rofi
   ];
 
@@ -259,7 +272,6 @@ services.xserver.displayManager.gdm.enable = true;
     ]; # For Streaming
     allowedTCPPorts = [ 8010 ]; # For gnomecast server
   };
-
 
   # Install firefox.
   programs.firefox.enable = true;

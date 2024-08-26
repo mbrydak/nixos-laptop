@@ -115,7 +115,7 @@
     usbutils
     vlc
     xorg.xbacklight
-    yq
+    yq-go
     zap
     zathura
     zeal
@@ -391,17 +391,17 @@
     # };
 
     alacritty = {
-      enable = false;
+      enable = true;
       settings = {
         font = {
           normal = {
             family = "Hack Nerd Font Mono";
           };
         };
+        window = {
+          opacity = 0.8;
+        };
       };
-    };
-    wofi = {
-      enable = true;
     };
     tmux = {
       enable = true;
