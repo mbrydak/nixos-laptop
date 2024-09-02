@@ -77,6 +77,10 @@
 
   services.resolved.enable = true;
 
+  services.minio = {
+    enable = true;
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
 
@@ -118,7 +122,11 @@
         lxappearance
       ];
     };
-    videoDrivers = [ "intel" "displaylink" "modesetting"];
+    videoDrivers = [
+      "intel"
+      "displaylink"
+      "modesetting"
+    ];
     deviceSection = ''
       Option "DRI" "2"
       Option "TearFree" "true"

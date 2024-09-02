@@ -8,10 +8,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nixvim = {
-    #   url = "github:nix-community/nixvim";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
   };
 
@@ -21,6 +21,7 @@
       nixpkgs,
       stylix,
       home-manager,
+      nixvim,
       ...
     }@inputs:
     {
@@ -35,7 +36,7 @@
             ./hosts/t480/configuration.nix
             stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
-
+            nixvim.homeManagerModules.nixvim
             {
               home-manager.useGlobalPkgs = true;
               # home-manager.useUserPackages = true;
@@ -52,7 +53,7 @@
             ./hosts/hp840/configuration.nix
             stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
-
+            nixvim.homeManagerModules.nixvim
             {
               home-manager.useGlobalPkgs = true;
               # home-manager.useUserPackages = true;

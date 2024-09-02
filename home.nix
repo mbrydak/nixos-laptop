@@ -237,157 +237,157 @@
       userEmail = "maxbrydak@gmail.com";
       userName = "mbrydak";
     };
-    # nixvim = {
-    #   enable = true;
-    #   enableMan = true;
-    #   colorschemes.catppuccin.enable = true;
-    #   clipboard = {
-    #     register = "unnamedplus";
-    #     providers.xclip.enable = true;
-    #   };
-    #   globals = {
-    #     mapleader = " ";
-    #   };
-    #   keymaps = [
-    #     {
-    #       key = ";";
-    #       action = ":";
-    #     }
-    #     {
-    #       key = "<leader>v";
-    #       action = "<cmd>CHADopen<cr>";
-    #       mode = "n";
-    #     }
-    #   ];
-    #   opts = {
-    #     number = true;
-    #     relativenumber = true;
-    #     shiftwidth = 2;
-    #   };
-    #   plugins = {
-    #     auto-save = {
-    #       enable = true;
-    #     };
-    #     surround = {
-    #       enable = true;
-    #     };
-    #     chadtree = {
-    #       enable = true;
-    #     };
-    #     lint = {
-    #       enable = true;
-    #     };
-    #     which-key = {
-    #       enable = true;
-    #     };
-    #     luasnip = {
-    #       enable = true;
-    #     };
-    #     lightline = {
-    #       enable = true;
-    #       colorscheme = "rosepine";
-    #     };
-    #     copilot-lua.enable = true;
-    #     nix.enable = true;
-    #     nvim-autopairs.enable = true;
-    #     telescope = {
-    #       enable = true;
-    #       # keymaps = {
-    #       #   "<C-p>" = {
-    #       #     action = "git_files";
-    #       #     desc = "Telescope Git Files";
-    #       #   };
-    #       #   "<leader>fg" = "live_grep";
-    #       # };
-    #     };
-    #     fugitive.enable = true;
-    #     harpoon = {
-    #       enable = true;
-    #       enableTelescope = true;
-    #       keymaps = {
-    #         addFile = "<leader>ha";
-    #         toggleQuickMenu = "<leader>g";
-    #       };
-    #     };
-    #     treesitter.enable = true;
-    #     treesitter-context.enable = true;
-    #     cmp-nvim-lsp.enable = true;
-    #     cmp = {
-    #       enable = true;
-    #       # settings = {
-    #       #   mapping = {
-    #       #     "<CR>" = "cmp.mapping.confirm({ select = true })";
-    #       #     "<Tab>" = {
-    #       #       modes = [ "i" "s" ];
-    #       #       action = ''
-    #       #         function(fallback)
-    #       #           if cmp.visible() then
-    #       #             cmp.select_next_item()
-    #       #           elseif luasnip.expandable() then
-    #       #             luasnip.expand()
-    #       #           elseif luasnip.expand_or_jumpable() then
-    #       #             luasnip.expand_or_jump()
-    #       #           elseif check_backspace() then
-    #       #             fallback()
-    #       #           else
-    #       #             fallback()
-    #       #           end
-    #       #         end
-    #       #       '';
-    #       #     };
-    #       #     "<S-Tab>" = {
-    #       #       modes = [ "i" "s" ];
-    #       #       action = ''
-    #       #         function(fallback)
-    #       #           if cmp.visible() then
-    #       #             cmp.select_prev_item()
-    #       #           elseif luasnip.expandable() then
-    #       #             luasnip.expand()
-    #       #           elseif luasnip.expand_or_jumpable() then
-    #       #             luasnip.expand_or_jump()
-    #       #           elseif check_backspace() then
-    #       #             fallback()
-    #       #           else
-    #       #             fallback()
-    #       #           end
-    #       #         end
-    #       #       '';
-    #       #     };
-    #       #   };
-    #       # };
-    #     };
-    #     lsp = {
-    #       enable = true;
-    #       keymaps = {
-    #         diagnostic = {
-    #           "<leader>j" = "goto_next";
-    #           "<leader>k" = "goto_prev";
-    #         };
-    #         lspBuf = {
-    #           K = "hover";
-    #           gD = "references";
-    #           gd = "definition";
-    #           gi = "implementation";
-    #           gt = "type_definition";
-    #         };
-    #       };
-    #       servers = {
-    #         bashls.enable = true;
-    #         gopls.enable = true;
-    #         terraformls.enable = true;
-    #         jsonls.enable = true;
-    #         nil-ls.enable = true;
-    #         # rust-analyzer.enable = true;
-    #         html.enable = true;
-    #         pyright.enable = true;
-    #         tsserver.enable = true;
-    #       };
-    #     };
-    #     tmux-navigator = {
-    #       enable = true;
-    #     };
-    #   };
-    # };
+    nixvim = {
+      enable = true;
+      enableMan = true;
+      colorschemes.catppuccin.enable = true;
+      clipboard = {
+        register = "unnamedplus";
+        providers.xclip.enable = true;
+      };
+      globals = {
+        mapleader = " ";
+      };
+      keymaps = [
+        {
+          key = ";";
+          action = ":";
+        }
+        {
+          key = "<leader>v";
+          action = "<cmd>CHADopen<cr>";
+          mode = "n";
+        }
+      ];
+      opts = {
+        number = true;
+        relativenumber = true;
+        shiftwidth = 2;
+      };
+      plugins = {
+        auto-save = {
+          enable = true;
+        };
+        surround = {
+          enable = true;
+        };
+        chadtree = {
+          enable = true;
+        };
+        lint = {
+          enable = true;
+        };
+        which-key = {
+          enable = true;
+        };
+        luasnip = {
+          enable = true;
+        };
+        lightline = {
+          enable = true;
+          colorscheme = "rosepine";
+        };
+        copilot-lua.enable = true;
+        nix.enable = true;
+        nvim-autopairs.enable = true;
+        telescope = {
+          enable = true;
+          # keymaps = {
+          #   "<C-p>" = {
+          #     action = "git_files";
+          #     desc = "Telescope Git Files";
+          #   };
+          #   "<leader>fg" = "live_grep";
+          # };
+        };
+        fugitive.enable = true;
+        harpoon = {
+          enable = true;
+          enableTelescope = true;
+          keymaps = {
+            addFile = "<leader>ha";
+            toggleQuickMenu = "<leader>g";
+          };
+        };
+        treesitter.enable = true;
+        treesitter-context.enable = true;
+        cmp-nvim-lsp.enable = true;
+        cmp = {
+          enable = true;
+          # settings = {
+          #   mapping = {
+          #     "<CR>" = "cmp.mapping.confirm({ select = true })";
+          #     "<Tab>" = {
+          #       modes = [ "i" "s" ];
+          #       action = ''
+          #         function(fallback)
+          #           if cmp.visible() then
+          #             cmp.select_next_item()
+          #           elseif luasnip.expandable() then
+          #             luasnip.expand()
+          #           elseif luasnip.expand_or_jumpable() then
+          #             luasnip.expand_or_jump()
+          #           elseif check_backspace() then
+          #             fallback()
+          #           else
+          #             fallback()
+          #           end
+          #         end
+          #       '';
+          #     };
+          #     "<S-Tab>" = {
+          #       modes = [ "i" "s" ];
+          #       action = ''
+          #         function(fallback)
+          #           if cmp.visible() then
+          #             cmp.select_prev_item()
+          #           elseif luasnip.expandable() then
+          #             luasnip.expand()
+          #           elseif luasnip.expand_or_jumpable() then
+          #             luasnip.expand_or_jump()
+          #           elseif check_backspace() then
+          #             fallback()
+          #           else
+          #             fallback()
+          #           end
+          #         end
+          #       '';
+          #     };
+          #   };
+          # };
+        };
+        lsp = {
+          enable = true;
+          keymaps = {
+            diagnostic = {
+              "<leader>j" = "goto_next";
+              "<leader>k" = "goto_prev";
+            };
+            lspBuf = {
+              K = "hover";
+              gD = "references";
+              gd = "definition";
+              gi = "implementation";
+              gt = "type_definition";
+            };
+          };
+          servers = {
+            bashls.enable = true;
+            gopls.enable = true;
+            terraformls.enable = true;
+            jsonls.enable = true;
+            nil-ls.enable = true;
+            # rust-analyzer.enable = true;
+            html.enable = true;
+            pyright.enable = true;
+            tsserver.enable = true;
+          };
+        };
+        tmux-navigator = {
+          enable = true;
+        };
+      };
+    };
 
     alacritty = {
       enable = true;
@@ -398,7 +398,7 @@
           };
         };
         window = {
-          opacity = 0.8;
+          opacity = 0.9;
         };
       };
     };
