@@ -246,15 +246,15 @@
   #   enableSSHSupport = true;
   # };
 
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    xwayland.enable = true;
-  };
+  # programs.hyprland = {
+  #   enable = true;
+  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  #   xwayland.enable = true;
+  # };
 
   services.xserver.displayManager = {
     #enable = true;
-    defaultSession = "hyprland";
+    defaultSession = "none+i3";
   };
 
   # enalbe zsh

@@ -12,7 +12,7 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
   };
 
   outputs =
@@ -39,7 +39,7 @@
 
             {
               home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
+              # home-manager.useUserPackages = true;
               home-manager.users.max = import ./home.nix;
               home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
             }
@@ -57,7 +57,7 @@
 
             {
               home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
+              # home-manager.useUserPackages = true;
               home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
               home-manager.users.max = import ./home.nix;
             }
