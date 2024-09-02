@@ -36,11 +36,12 @@
             ./hosts/t480/configuration.nix
             stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
-            nixvim.homeManagerModules.nixvim
+
             {
               home-manager.useGlobalPkgs = true;
-              # home-manager.useUserPackages = true;
+              home-manager.useUserPackages = true;
               home-manager.users.max = import ./home.nix;
+              home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
             }
           ];
         };
@@ -53,10 +54,11 @@
             ./hosts/hp840/configuration.nix
             stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
-            nixvim.homeManagerModules.nixvim
+
             {
               home-manager.useGlobalPkgs = true;
-              # home-manager.useUserPackages = true;
+              home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
               home-manager.users.max = import ./home.nix;
             }
           ];
