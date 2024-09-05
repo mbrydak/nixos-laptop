@@ -8,11 +8,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    bao-nixpkgs.url = "github:joseph-flinn/nixpkgs/add-pkg-openbao-bin";
+    nixvim-config.url = "github:mbrydak/nixvim-config";
   };
 
   outputs =
@@ -21,7 +18,8 @@
       nixpkgs,
       stylix,
       home-manager,
-      nixvim,
+      bao-nixpkgs,
+      nixvim-config,
       ...
     }@inputs:
     {
@@ -41,7 +39,6 @@
               home-manager.useGlobalPkgs = true;
               # home-manager.useUserPackages = true;
               home-manager.users.max = import ./home.nix;
-              home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
             }
           ];
         };
@@ -58,7 +55,6 @@
             {
               home-manager.useGlobalPkgs = true;
               # home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
               home-manager.users.max = import ./home.nix;
             }
           ];

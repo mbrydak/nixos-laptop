@@ -77,10 +77,6 @@
 
   services.resolved.enable = true;
 
-  services.minio = {
-    enable = true;
-  };
-
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
 
@@ -111,26 +107,32 @@
       mouse.accelProfile = "flat";
     };
 
-    windowManager.i3 = {
-      enable = true;
-      package = pkgs.i3-gaps;
-      extraPackages = with pkgs; [
+    windowManager = {
+      awesome = {
+        enable = true;
+      };
+      i3 = {
+        enable = true;
+        package = pkgs.i3-gaps;
+        extraPackages = with pkgs; [
 
-        i3status
-        i3lock
-        i3blocks
-        lxappearance
-      ];
+          i3status
+          i3lock
+          i3blocks
+          lxappearance
+        ];
+      };
     };
-    videoDrivers = [
-      "intel"
-      "displaylink"
-      "modesetting"
-    ];
-    deviceSection = ''
-      Option "DRI" "2"
-      Option "TearFree" "true"
-    '';
+
+      videoDrivers = [
+        "intel"
+        "displaylink"
+        "modesetting"
+      ];
+      deviceSection = ''
+        Option "DRI" "2"
+        Option "TearFree" "true"
+      '';
   };
 
   environment.pathsToLink = [
@@ -147,6 +149,11 @@
   };
 
   services.locate.enable = true;
+
+  services.vault = {
+    enable = true;
+    package = inputs.bao-nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.openbao-bin;
+  };
 
   services.ollama.enable = true;
 
@@ -228,6 +235,7 @@
     libnotify
     xterm
     rofi
+    inputs.nixvim-config.packages.${system}.default
   ];
 
   fonts.packages = with pkgs; [
@@ -254,7 +262,8 @@
 
   services.xserver.displayManager = {
     #enable = true;
-    defaultSession = "none+i3";
+    defaultSession = "none+awesome";
+    # defaultSession = "none+i3";
   };
 
   # enalbe zsh
