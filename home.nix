@@ -31,6 +31,7 @@
       bat
       bitwarden
       brightnessctl
+      cardinal
       cloudflare-warp
       croc
       csview
@@ -103,6 +104,7 @@
       tree
       unzip
       usbutils
+      vcv-rack
       vlc
       xorg.xbacklight
       yq-go
