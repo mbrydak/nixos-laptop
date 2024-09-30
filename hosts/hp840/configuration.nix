@@ -77,6 +77,10 @@
 
   services.resolved.enable = true;
 
+  services.k3s = {
+    enable = false;
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
 
@@ -124,15 +128,14 @@
       };
     };
 
-      videoDrivers = [
-        "intel"
-        "displaylink"
-        "modesetting"
-      ];
-      deviceSection = ''
-        Option "DRI" "2"
-        Option "TearFree" "true"
-      '';
+    videoDrivers = [
+      "intel"
+      "modesetting"
+    ];
+    deviceSection = ''
+      Option "DRI" "2"
+      Option "TearFree" "true"
+    '';
   };
 
   environment.pathsToLink = [
@@ -149,7 +152,6 @@
   };
 
   services.locate.enable = true;
-
 
   services.ollama.enable = true;
 
@@ -176,7 +178,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    jack.enable =true;
+    jack.enable = true;
     # If you want to use JACK applications, uncomment this
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
@@ -259,8 +261,8 @@
 
   services.xserver.displayManager = {
     #enable = true;
-    defaultSession = "none+awesome";
-    # defaultSession = "none+i3";
+    # defaultSession = "none+awesome";
+    defaultSession = "none+i3";
   };
 
   # enalbe zsh
@@ -274,17 +276,28 @@
   };
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      UseDns = true;
+      PasswordAuthentication = true;
+    };
+  };
 
   networking.firewall = {
-    allowedUDPPorts = [ 5353 ]; # For device discovery
+    allowedUDPPorts = [ 5353 ];
     allowedUDPPortRanges = [
       {
         from = 32768;
         to = 61000;
       }
-    ]; # For Streaming
-    allowedTCPPorts = [ 8010 ]; # For gnomecast server
+    ];
+    allowedTCPPorts = [
+      8010
+      6443
+      10250
+      6379
+    ];
   };
 
   # Install firefox.

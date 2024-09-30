@@ -2,13 +2,13 @@
   description = "Flaked NixOS Config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    stylix.url = "github:danth/stylix";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    stylix = {
+      url = "github:danth/stylix/release-24.05";
     };
-    bao-nixpkgs.url = "github:joseph-flinn/nixpkgs/add-pkg-openbao-bin";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+    };
     nixvim-config.url = "github:mbrydak/nixvim-config";
   };
 
@@ -18,14 +18,13 @@
       nixpkgs,
       stylix,
       home-manager,
-      bao-nixpkgs,
       nixvim-config,
       ...
     }@inputs:
     {
 
       nixosConfigurations = {
-        t480 = nixpkgs.lib.nixosSystem {
+        t480 = nixpkgs.lib.nixossystem {
           specialArgs = {
             inherit inputs;
           };

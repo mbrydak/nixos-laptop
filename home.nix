@@ -72,9 +72,11 @@
       kubectl
       kubernetes-helm
       libgen-cli
+      libreoffice
       llama-cpp
       lm_sensors
       mermaid-cli
+      gnome.nautilus
       (nerdfonts.override { fonts = [ "Hack" ]; })
       networkmanager
       networkmanager-openconnect
@@ -98,6 +100,7 @@
       starship
       tealdeer
       teams-for-linux
+      tenacity
       thunderbird
       traceroute
       transmission_4
@@ -145,6 +148,21 @@
   #
   # if you don't want to manage your shell through Home Manager.
 
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = {
+        width = 300;
+        height = 300;
+        offset = "30x50";
+        origin = "top-right";
+      };
+
+      urgency_normal = {
+        timeout = 10;
+      };
+    };
+  };
   programs = {
     home-manager.enable = true;
     autorandr = {
@@ -227,7 +245,7 @@
     };
     git = {
       enable = true;
-      # delta.enable = true;
+      delta.enable = true;
       userEmail = "maxbrydak@gmail.com";
       userName = "mbrydak";
     };
