@@ -153,7 +153,10 @@
 
   services.locate.enable = true;
 
-  services.ollama.enable = true;
+  services.ollama = {
+    enable = true;
+    package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.ollama;
+  }; 
 
   # Enable the KDE Plasma Desktop Environment.
   # services.displayManager.sddm.enable = true;

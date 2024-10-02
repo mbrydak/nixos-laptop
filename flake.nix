@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     stylix = {
       url = "github:danth/stylix/release-24.05";
     };
@@ -16,6 +17,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       stylix,
       home-manager,
       nixvim-config,
@@ -24,7 +26,7 @@
     {
 
       nixosConfigurations = {
-        t480 = nixpkgs.lib.nixossystem {
+        t480 = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
           };
@@ -56,6 +58,7 @@
               # home-manager.useUserPackages = true;
               home-manager.users.max = import ./home.nix;
             }
+            
           ];
         };
       };

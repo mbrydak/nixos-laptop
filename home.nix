@@ -24,6 +24,7 @@
 
     packages = with pkgs; [
       ansible
+      tenacity
       arandr
       archi
       argocd
@@ -69,8 +70,10 @@
       k3d
       k9s
       killall
+      kind
       kubectl
       kubernetes-helm
+      kustomize
       libgen-cli
       libreoffice
       llama-cpp
@@ -181,6 +184,11 @@
     vscode = {
       enable = true;
       package = pkgs.vscode.fhs;
+      userSettings = {
+        "files.autoSave" = "onFocusChange";
+        "editor.formatOnSave" = true;
+        "workbench.sideBar.location" = "right";
+      };
     };
     qutebrowser = {
       enable = true;
