@@ -59,6 +59,7 @@
       go
       google-chrome
       gparted
+      k3d
       graphviz
       hddtemp
       htop
@@ -67,11 +68,19 @@
       jless
       jost
       jq
-      k3d
       k9s
       killall
       kind
       kubectl
+      (wrapHelm kubernetes-helm {
+        plugins = with pkgs.kubernetes-helmPlugins; [
+          helm-secrets
+          helm-diff
+          helm-s3
+          helm-git
+        ];
+      })
+      helmfile-wrapped
       kubernetes-helm
       kustomize
       libgen-cli
@@ -118,8 +127,8 @@
       zathura
       zeal
       zip
-      zotero
       zoxide
+      zotero
     ];
     sessionVariables = {
       TERM = "xterm-256color";
@@ -309,6 +318,10 @@
         tmuxPlugins.vim-tmux-navigator
         tmuxPlugins.catppuccin
       ];
+    };
+    zellij = {
+      enable = true;
+      enableZshIntegration = true;
     };
     direnv = {
       enable = true;

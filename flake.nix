@@ -17,7 +17,6 @@
     {
       self,
       nixpkgs,
-      nixpkgs-unstable,
       stylix,
       home-manager,
       nixvim-config,
@@ -55,10 +54,10 @@
 
             {
               home-manager.useGlobalPkgs = true;
-              # home-manager.useUserPackages = true;
+              home-manager.useUserPackages = true;
               home-manager.users.max = import ./home.nix;
             }
-            
+
           ];
         };
       };

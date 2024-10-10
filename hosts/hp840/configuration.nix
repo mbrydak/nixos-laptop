@@ -77,9 +77,27 @@
 
   services.resolved.enable = true;
 
-  services.k3s = {
-    enable = false;
-  };
+  # environment.etc."paperless-admin-pass".text = "admin";
+  # services.paperless = {
+  #   enable = true;
+  #   passwordFile = "/etc/paperless-admin-pass";
+  #   settings = {
+  #     PAPERLESS_CONSUMER_IGNORE_PATTERN = [
+  #       ".DS_STORE/*"
+  #       "desktop.ini"
+  #     ];
+  #     PAPERLESS_OCR_LANGUAGE = "pol+eng";
+  #     PAPERLESS_OCR_USER_ARGS = {
+  #       optimize = 1;
+  #       pdfa_image_compression = "lossless";
+  #     };
+  #   };
+  # };
+
+  #services.k3s = {
+  #  enable = true;
+  #  package = pkgs.k3s_1_30;
+  #};
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -156,7 +174,18 @@
   services.ollama = {
     enable = true;
     package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.ollama;
-  }; 
+  };
+
+  #services.open-webui = {
+  #  enable = true;
+  #  package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.open-webui;
+  #  environment = {
+  #    SCARF_NO_ANALYTICS = "True";
+  #    DO_NOT_TRACK = "True";
+  #    ANONYMIZED_TELEMETRY = "False";
+  #    WEBUI_AUTH = "False";
+  #  };
+  #};
 
   # Enable the KDE Plasma Desktop Environment.
   # services.displayManager.sddm.enable = true;
@@ -169,10 +198,10 @@
   environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID"; # set the runtime directory
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [ brlaser ];
-  };
+  # services.printing = {
+  #   enable = true;
+  #   drivers = with pkgs; [ brlaser ];
+  # };
 
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
