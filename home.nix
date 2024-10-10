@@ -72,15 +72,6 @@
       killall
       kind
       kubectl
-      (wrapHelm kubernetes-helm {
-        plugins = with pkgs.kubernetes-helmPlugins; [
-          helm-secrets
-          helm-diff
-          helm-s3
-          helm-git
-        ];
-      })
-      helmfile-wrapped
       kubernetes-helm
       kustomize
       libgen-cli
