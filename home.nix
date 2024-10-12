@@ -257,23 +257,6 @@
       userEmail = "maxbrydak@gmail.com";
       userName = "mbrydak";
     };
-    # nixvim = {
-    #   enable = true;
-    #   enableMan = true;
-    #   defaultEditor = true;
-    #   vimdiffAlias = true;
-    #   opts = {
-    #     number = true;
-    #     relativenumber = true;
-    #     shiftwidth = 2;
-    #   };
-    #   keymaps = [
-    #     {
-    #       key = ";";
-    #       action = ":";
-    #     }
-    #   ];
-    # };
 
     alacritty = {
       enable = true;
@@ -311,7 +294,7 @@
       ];
     };
     zellij = {
-      enable = true;
+      enable = false;
       enableZshIntegration = true;
     };
     direnv = {

@@ -75,6 +75,7 @@
 
   stylix.polarity = "dark";
 
+  services.flatpak.enable = true;
   services.resolved.enable = true;
 
   # environment.etc."paperless-admin-pass".text = "admin";
@@ -94,10 +95,11 @@
   #   };
   # };
 
-  #services.k3s = {
-  #  enable = true;
-  #  package = pkgs.k3s_1_30;
-  #};
+  services.k3s = {
+    enable = true;
+    package = pkgs.k3s_1_30;
+    extraFlags = "--disable traefik";
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -197,6 +199,7 @@
   services.xserver.displayManager.gdm.enable = true;
   environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID"; # set the runtime directory
   security.pam.services.gdm-password.enableGnomeKeyring = true;
+  security.pki.certificateFiles = [ ./certs/ca-chain.crt ];
 
   # services.printing = {
   #   enable = true;
@@ -329,6 +332,8 @@
       6443
       10250
       6379
+      80
+      443
     ];
   };
 
