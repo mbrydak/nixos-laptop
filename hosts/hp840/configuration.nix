@@ -96,7 +96,7 @@
   # };
 
   services.k3s = {
-    enable = false;
+    enable = true;
     package = pkgs.k3s_1_30;
     extraFlags = "--disable traefik";
   };
