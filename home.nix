@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }:
 
@@ -474,6 +475,9 @@
 
   };
   dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      cursor-theme = lib.mkForce "Adwaita";
+    };
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "caps:escape" ];
     };

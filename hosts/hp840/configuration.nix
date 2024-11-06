@@ -6,6 +6,7 @@
   inputs,
   config,
   pkgs,
+  lib,
   ...
 }:
 
@@ -201,6 +202,13 @@
   services.picom.enable = true;
   services.gnome.gnome-keyring.enable = true;
   programs.ssh.startAgent = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
 
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;

@@ -11,9 +11,9 @@
       url = "github:nix-community/home-manager/release-24.05";
     };
     nixvim-config.url = "github:mbrydak/nixvim-config";
-#    musnix = {
-#      url = "github:musnix/musnix";
-#    };
+    #    musnix = {
+    #      url = "github:musnix/musnix";
+    #    };
   };
 
   outputs =
