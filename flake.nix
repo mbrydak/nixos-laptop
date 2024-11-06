@@ -11,6 +11,9 @@
       url = "github:nix-community/home-manager/release-24.05";
     };
     nixvim-config.url = "github:mbrydak/nixvim-config";
+#    musnix = {
+#      url = "github:musnix/musnix";
+#    };
   };
 
   outputs =
@@ -51,7 +54,7 @@
             ./hosts/hp840/configuration.nix
             stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
-
+            #inputs.musnix.nixosModules.musnix
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;

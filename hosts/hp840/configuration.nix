@@ -163,6 +163,12 @@
     "/share/zsh"
   ];
 
+  #musnix = {
+  #  enable = true;
+  #  rtcqs.enable = true;
+  #  soundcardPciId = "00:1f.3";
+  #  kernel.realtime = true;
+  #};
   documentation = {
     nixos.enable = true;
     man = {
