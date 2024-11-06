@@ -202,6 +202,7 @@
   services.picom.enable = true;
   services.gnome.gnome-keyring.enable = true;
   programs.ssh.startAgent = true;
+  programs.xwayland.enable = true;
 
   programs.steam = {
     enable = true;
