@@ -33,7 +33,6 @@
       bitwarden
       brightnessctl
       cardinal
-      cloudflare-warp
       croc
       csview
       dmenu
@@ -82,12 +81,10 @@
       gnome.nautilus
       (nerdfonts.override { fonts = [ "Hack" ]; })
       networkmanager
-      networkmanager-openconnect
       nil
       nix-index
       obsidian
       okular
-      openconnect
       openssl
       pavucontrol
       pcmanfm
@@ -110,7 +107,6 @@
       tree
       unzip
       usbutils
-      vcv-rack
       vlc
       xorg.xbacklight
       yq-go

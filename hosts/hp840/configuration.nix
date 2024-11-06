@@ -135,17 +135,17 @@
       awesome = {
         enable = true;
       };
-      i3 = {
-        enable = true;
-        package = pkgs.i3-gaps;
-        extraPackages = with pkgs; [
+      #i3 = {
+      #  enable = true;
+      #  package = pkgs.i3-gaps;
+      #  extraPackages = with pkgs; [
 
-          i3status
-          i3lock
-          i3blocks
-          lxappearance
-        ];
-      };
+      #    i3status
+      #    i3lock
+      #    i3blocks
+      #    lxappearance
+      #  ];
+      #};
     };
 
     videoDrivers = [
@@ -203,6 +203,7 @@
   programs.ssh.startAgent = true;
 
   services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
   environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID"; # set the runtime directory
   security.pam.services.gdm-password.enableGnomeKeyring = true;
   security.pki.certificateFiles = [ ./certs/ca-chain.crt ];
@@ -303,7 +304,7 @@
   services.xserver.displayManager = {
     #enable = true;
     # defaultSession = "none+awesome";
-    defaultSession = "none+i3";
+    # defaultSession = "none+i3";
   };
 
   # enalbe zsh
