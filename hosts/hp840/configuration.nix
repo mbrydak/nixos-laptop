@@ -97,7 +97,7 @@
   # };
 
   services.k3s = {
-    enable = false;
+    enable = true;
     package = pkgs.k3s_1_30;
     extraFlags = "--disable traefik";
   };
@@ -180,10 +180,10 @@
 
   services.locate.enable = true;
 
-  services.ollama = {
-    enable = true;
-    package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.ollama;
-  };
+  #services.ollama = {
+  #  enable = true;
+  #  package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.ollama;
+  #};
 
   #services.open-webui = {
   #  enable = true;

@@ -27,6 +27,7 @@
       ansible
       tenacity
       arandr
+      mattermost-desktop
       archi
       argocd
       autotiling
