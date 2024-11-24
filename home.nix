@@ -27,6 +27,7 @@
       ansible
       tenacity
       arandr
+      minikube
       mattermost-desktop
       archi
       argocd
@@ -40,11 +41,15 @@
       dmenu
       delve
       devbox
+      devpod
+      termusic
+      devpod-desktop
       dig
       direnv
       discord
       distrobox
       du-dust
+      devspace
       fd
       feh
       firefox
@@ -74,6 +79,7 @@
       kind
       kubectl
       kubernetes-helm
+      devenv
       kustomize
       libgen-cli
       libreoffice

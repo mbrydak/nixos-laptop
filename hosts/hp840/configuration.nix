@@ -22,6 +22,10 @@
     "flakes"
   ];
 
+  nix.extraOptions = ''
+    trusted-users = root max
+  '';
+
   nix.settings = {
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-public-keys = [
@@ -57,6 +61,7 @@
   networking.hosts = {
     "192.168.11.28" = [ "bastion" ];
     "192.168.11.167" = [ "cntm" ];
+    "127.0.0.1" = [ "vault.vault" ];
     #  "192.168.0.77" = ["k8s-master-0.homelab.home"];
     #  "192.168.0.116" = ["k8s-master-1.homelab.home"];
     #  "192.168.0.220" = ["k8s-master-2.homelab.home"];
@@ -75,6 +80,11 @@
   stylix.image = ./wallpaper/motorcycle-anime-girl.png;
 
   stylix.polarity = "dark";
+
+  services.mullvad-vpn = {
+    enable = true;
+    package = pkgs.mullvad-vpn;
+  };
 
   services.flatpak.enable = true;
   services.resolved.enable = true;
@@ -136,17 +146,17 @@
       awesome = {
         enable = true;
       };
-      #i3 = {
-      #  enable = true;
-      #  package = pkgs.i3-gaps;
-      #  extraPackages = with pkgs; [
+      i3 = {
+        enable = true;
+        package = pkgs.i3-gaps;
+        extraPackages = with pkgs; [
 
-      #    i3status
-      #    i3lock
-      #    i3blocks
-      #    lxappearance
-      #  ];
-      #};
+          i3status
+          i3lock
+          i3blocks
+          lxappearance
+        ];
+      };
     };
 
     videoDrivers = [
@@ -182,12 +192,10 @@
 
   #services.ollama = {
   #  enable = true;
-  #  package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.ollama;
   #};
 
   #services.open-webui = {
   #  enable = true;
-  #  package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.open-webui;
   #  environment = {
   #    SCARF_NO_ANALYTICS = "True";
   #    DO_NOT_TRACK = "True";
@@ -197,7 +205,7 @@
   #};
 
   # Enable the KDE Plasma Desktop Environment.
-  # services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
   services.picom.enable = true;
   services.gnome.gnome-keyring.enable = true;
@@ -211,11 +219,11 @@
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
   environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID"; # set the runtime directory
   security.pam.services.gdm-password.enableGnomeKeyring = true;
-  security.pki.certificateFiles = [ ./certs/ca-chain.crt ];
+  security.pki.certificateFiles = [ ./certs/ca-chain.crt ./certs/ca.crt ];
 
   # services.printing = {
   #   enable = true;
@@ -314,9 +322,8 @@
   # };
 
   services.xserver.displayManager = {
-    #enable = true;
     # defaultSession = "none+awesome";
-    # defaultSession = "none+i3";
+    defaultSession = "none+i3";
   };
 
   # enalbe zsh
