@@ -2,6 +2,11 @@
   description = "Flaked NixOS Config";
 
   inputs = {
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     stylix = {
@@ -40,6 +45,7 @@
 
             {
               home-manager.useGlobalPkgs = true;
+              home-manager.extraSpecialArgs = {inherit inputs; };
               # home-manager.useUserPackages = true;
               home-manager.users.max = import ./home.nix;
             }
@@ -57,6 +63,7 @@
             #inputs.musnix.nixosModules.musnix
             {
               home-manager.useGlobalPkgs = true;
+              home-manager.extraSpecialArgs = {inherit inputs; };
               home-manager.useUserPackages = true;
               home-manager.users.max = import ./home.nix;
             }

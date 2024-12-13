@@ -24,46 +24,35 @@
     ];
 
     packages = with pkgs; [
-      ansible
-      tenacity
-      arandr
+      wofi
       minikube
       mattermost-desktop
-      archi
-      argocd
-      autotiling
       bat
       bitwarden
-      brightnessctl
-      cardinal
       croc
       csview
-      dmenu
       delve
       devbox
       devpod
-      termusic
       devpod-desktop
       dig
       direnv
-      discord
-      distrobox
+      vesktop
       du-dust
-      devspace
       fd
       feh
       firefox
       fluxcd
-      foliate
-      freshfetch
       fzf
       gh
       git
       git-lfs
+      blueberry
       glow
       gnumake
       go
       google-chrome
+      wdisplays
       gparted
       k3d
       graphviz
@@ -85,48 +74,40 @@
       libreoffice
       llama-cpp
       lm_sensors
-      mermaid-cli
-      gnome.nautilus
-      (nerdfonts.override { fonts = [ "Hack" ]; })
+      nautilus
+      nerd-fonts.hack
+      noto-fonts
+      openmoji-color
+      font-awesome
+      swaycons
       networkmanager
       nil
       nix-index
       obsidian
-      okular
       openssl
       pavucontrol
-      pcmanfm
-      picom
-      resumed
       ripgrep
       rsync
-      scrot
-      shutter
       slack
       spotify
-      ssm-session-manager-plugin
       starship
       tealdeer
-      teams-for-linux
       tenacity
-      thunderbird
       traceroute
-      transmission_4
       tree
       unzip
       usbutils
       vlc
-      xorg.xbacklight
       yq-go
       zap
       zathura
       zeal
       zip
-      zoxide
       zotero
     ];
     sessionVariables = {
       TERM = "xterm-256color";
+      EDITOR = "xterm-256color";
     };
   };
 
@@ -181,10 +162,27 @@
   fonts = {
     fontconfig = {
       enable = true;
+      #defaultFonts = {
+      #  emoji = [
+      #    "Openmoji Color"
+      #  ];
+      #};
     };
   };
 
   programs = {
+    eza = {
+      enable = true;
+      colors = "auto";
+      git = true;
+      icons = "auto";
+    };
+    zoxide = {
+      enable = true;
+      options = [
+        "--cmd z"
+      ];
+    };
     vscode = {
       enable = true;
       package = pkgs.vscode.fhs;
@@ -199,6 +197,32 @@
     };
     waybar = {
       enable = true;
+      settings = [
+      {
+          layer = "top";
+          position = "top";
+          height = 30;
+          modules-left = ["hyprland/workspaces"];
+          modules-center = ["clock"];
+          modules-right = ["network" "battery"];
+          "hyprland/workspaces" = {
+            format = "{icon}";
+            on-scroll-up = "hyprctl dispatch workspace e+1";
+            on-scroll-down = "hyprctl dispatch workspace e-1";
+          };
+          "network" = {
+            interval = 10;
+            format = "{ifname} {ipaddr}";
+          };
+          "clock" = {
+            interval = 5;
+            format = "{:%H:%M:%S}";
+          };
+          "battery" = {
+            format = "{icon} {capacity}%";
+          };
+      }
+      ];
     };
     carapace = {
       enable = true;
@@ -218,7 +242,8 @@
       shellAliases = {
         gitroot = "cd $(git rev-parse --show-toplevel)";
         nv = "nvim";
-        k = "kubectl --";
+        k = "kubectl";
+        glow = "glow -p";
       };
       history = {
         ignoreDups = true;
@@ -481,100 +506,129 @@
     };
 
   };
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      cursor-theme = lib.mkForce "Adwaita";
-    };
-    "org/gnome/desktop/input-sources" = {
-      xkb-options = [ "caps:escape" ];
-    };
-  };
-  # wayland.windowManager.hyprland = {
-  #   enable = true;
-  #   settings = {
-  #     "$mainMod" = "SUPER";
-  #     "exec-once" = "waybar & hyprpaper & qutebrowser";
-  #     general = {
-  #       gaps_in = 5;
-  #       gaps_out = 10;
-  #       border_size = 2;
-  #       layout = "dwindle";
-  #     };
-  #     input = {
-  #       kb_layout = "pl";
-  #       touchpad = {
-  #         natural_scroll = "yes";
-  #       };
-  #     };
-  #     decoration = {
-  #       rounding = 10;
-  #       blur = {
-  #         enabled = true;
-  #         size = 3;
-  #         passes = 1;
-  #       };
-  #       drop_shadow = "yes";
-  #       shadow_range = 4;
-  #       shadow_render_power = 3;
-
-  #     };
-  #     dwindle = {
-  #       pseudotile = "yes";
-  #       preserve_split = "yes";
-
-  #     };
-  #     bind = [
-  #       "$mainMod, Q, exec, alacritty"
-  #       "$mainMod, C, killactive,"
-  #       "$mainMod, M, exit,"
-  #       "$mainMod, E, exec, dolphin"
-  #       "$mainMod, V, togglefloating,"
-  #       "$mainMod, R, exec, wofi --show drun"
-  #       "$mainMod, P, pseudo," # dwindle
-  #       "$mainMod, J, togglesplit," # dwindle
-
-  #       # Move focus with mainMod + arrow keys
-  #       "$mainMod, left, movefocus, l"
-  #       "$mainMod, right, movefocus, r"
-  #       "$mainMod, up, movefocus, u"
-  #       "$mainMod, down, movefocus, d"
-
-  #       # Switch workspaces with mainMod + [0-9]
-  #       "$mainMod, 1, workspace, 1"
-  #       "$mainMod, 2, workspace, 2"
-  #       "$mainMod, 3, workspace, 3"
-  #       "$mainMod, 4, workspace, 4"
-  #       "$mainMod, 5, workspace, 5"
-  #       "$mainMod, 6, workspace, 6"
-  #       "$mainMod, 7, workspace, 7"
-  #       "$mainMod, 8, workspace, 8"
-  #       "$mainMod, 9, workspace, 9"
-  #       "$mainMod, 0, workspace, 10"
-
-  #       # Move active window to a workspace with mainMod + SHIFT + [0-9]
-  #       "$mainMod SHIFT, 1, movetoworkspace, 1"
-  #       "$mainMod SHIFT, 2, movetoworkspace, 2"
-  #       "$mainMod SHIFT, 3, movetoworkspace, 3"
-  #       "$mainMod SHIFT, 4, movetoworkspace, 4"
-  #       "$mainMod SHIFT, 5, movetoworkspace, 5"
-  #       "$mainMod SHIFT, 6, movetoworkspace, 6"
-  #       "$mainMod SHIFT, 7, movetoworkspace, 7"
-  #       "$mainMod SHIFT, 8, movetoworkspace, 8"
-  #       "$mainMod SHIFT, 9, movetoworkspace, 9"
-  #       "$mainMod SHIFT, 0, movetoworkspace, 10"
-
-  #       # Scroll through existing workspaces with mainMod + scroll
-  #       "$mainMod, mouse_down, workspace, e+1"
-  #       "$mainMod, mouse_up, workspace, e-1"
-
-  #       # Move/resize windows with mainMod + LMB/RMB and dragging
-
-  #     ];
-  #     bindm = [
-  #       "$mainMod, mouse:272, movewindow"
-  #       "$mainMod, mouse:273, resizewindow"
-
-  #     ];
+  # dconf.settings = {
+  #   "org/gnome/desktop/interface" = {
+  #     cursor-theme = lib.mkForce "Adwaita";
+  #   };
+  #   "org/gnome/desktop/input-sources" = {
+  #     xkb-options = [ "caps:escape" ];
   #   };
   # };
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    plugins = with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}; [
+    borders-plus-plus
+    ];
+    settings = {
+      "$mainMod" = "SUPER";
+      "exec-once" = "hyprpaper";
+      monitor = ",1920x1080,auto,1,bitdepth,8";
+      general = {
+        gaps_in = 5;
+        gaps_out = 10;
+        border_size = 2;
+        layout = "master";
+      };
+      input = {
+        kb_layout = "pl";
+        touchpad = {
+          natural_scroll = "yes";
+        };
+      };
+      decoration = {
+        rounding = 10;
+        blur = {
+          enabled = true;
+          size = 3;
+          passes = 1;
+        };
+        shadow = {
+          enabled = true;
+          range = 4;
+          render_power = 3;
+        };
+      };
+      dwindle = {
+        pseudotile = "yes";
+        preserve_split = "yes";
+
+      };
+      bindel = [
+        ", XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 6.25%+"
+        ", XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 6.25%-"
+      ];
+
+      # Media.
+      bindl = [
+        ", XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
+        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+      ];
+      bind = [
+        "$mainMod, F, fullscreen"
+        "$mainMod, Q, exec, ${pkgs.alacritty}/bin/alacritty"
+        "$mainMod, C, killactive,"
+        "$mainMod, M, exit,"
+        "$mainMod, E, exec, ${pkgs.dolphin}/bin/dolphin"
+        "$mainMod, V, togglefloating,"
+        "$mainMod, R, exec, ${pkgs.wofi}/bin/wofi --show drun"
+        "$mainMod, P, pseudo," # dwindle
+        "$mainMod, J, togglesplit," # dwindle
+
+        # Move focus with mainMod + arrow keys
+        "$mainMod, left, movefocus, l"
+        "$mainMod, right, movefocus, r"
+        "$mainMod, up, movefocus, u"
+        "$mainMod, down, movefocus, d"
+
+        # Screen brightness
+        ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s +5%"
+        ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-"
+
+        # Screenshot
+        ", Print, exec, ${pkgs.sway-contrib.grimshot}/bin/grimshot copy"
+
+        # Switch workspaces with mainMod + [0-9]
+        "$mainMod, 1, workspace, 1"
+        "$mainMod, 2, workspace, 2"
+        "$mainMod, 3, workspace, 3"
+        "$mainMod, 4, workspace, 4"
+        "$mainMod, 5, workspace, 5"
+        "$mainMod, 6, workspace, 6"
+        "$mainMod, 7, workspace, 7"
+        "$mainMod, 8, workspace, 8"
+        "$mainMod, 9, workspace, 9"
+        "$mainMod, 0, workspace, 10"
+
+        # Move active window to a workspace with mainMod + SHIFT + [0-9]
+        "$mainMod SHIFT, 1, movetoworkspace, 1"
+        "$mainMod SHIFT, 2, movetoworkspace, 2"
+        "$mainMod SHIFT, 3, movetoworkspace, 3"
+        "$mainMod SHIFT, 4, movetoworkspace, 4"
+        "$mainMod SHIFT, 5, movetoworkspace, 5"
+        "$mainMod SHIFT, 6, movetoworkspace, 6"
+        "$mainMod SHIFT, 7, movetoworkspace, 7"
+        "$mainMod SHIFT, 8, movetoworkspace, 8"
+        "$mainMod SHIFT, 9, movetoworkspace, 9"
+        "$mainMod SHIFT, 0, movetoworkspace, 10"
+
+        # Scroll through existing workspaces with mainMod + scroll
+        "$mainMod, mouse_down, workspace, e+1"
+        "$mainMod, mouse_up, workspace, e-1"
+
+        # Move/resize windows with mainMod + LMB/RMB and dragging
+
+      ];
+      bindm = [
+        "$mainMod, mouse:272, movewindow"
+        "$mainMod, mouse:273, resizewindow"
+
+      ];
+      xwayland = {
+        force_zero_scaling = true;
+      };
+    };
+  };
 }

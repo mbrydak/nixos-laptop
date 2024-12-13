@@ -9,7 +9,6 @@
   lib,
   ...
 }:
-
 {
   imports = [
     # Include the results of the hardware scan.
@@ -107,7 +106,7 @@
   # };
 
   services.k3s = {
-    enable = true;
+    enable = false;
     package = pkgs.k3s_1_30;
     extraFlags = "--disable traefik";
   };
@@ -150,7 +149,6 @@
         enable = true;
         package = pkgs.i3-gaps;
         extraPackages = with pkgs; [
-
           i3status
           i3lock
           i3blocks
@@ -190,9 +188,9 @@
 
   services.locate.enable = true;
 
-  #services.ollama = {
-  #  enable = true;
-  #};
+  services.ollama = {
+    enable = true;
+  };
 
   #services.open-webui = {
   #  enable = true;
@@ -205,9 +203,10 @@
   #};
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
   # services.desktopManager.plasma6.enable = true;
-  services.picom.enable = true;
+  # services.picom.enable = true;
   services.gnome.gnome-keyring.enable = true;
   programs.ssh.startAgent = true;
   programs.xwayland.enable = true;
@@ -219,11 +218,14 @@
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
-  # services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
   environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID"; # set the runtime directory
   security.pam.services.gdm-password.enableGnomeKeyring = true;
-  security.pki.certificateFiles = [ ./certs/ca-chain.crt ./certs/ca.crt ];
+  security.pki.certificateFiles = [
+    ./certs/ca-chain.crt
+    ./certs/ca.crt
+  ];
 
   # services.printing = {
   #   enable = true;
@@ -251,7 +253,7 @@
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
+  # services.blueman.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -294,18 +296,23 @@
     xterm
     rofi
     inputs.nixvim-config.packages.${system}.default
+    k3s_1_30
   ];
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Hack" ]; })
+    nerd-fonts.hack
     jost
     ibm-plex
+    openmoji-color
+    noto-fonts
+    noto-fonts-color-emoji
+    font-awesome
   ];
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-gtk
-    pkgs.xdg-desktop-portal-gnome
+    # pkgs.xdg-desktop-portal-gnome
   ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -315,15 +322,17 @@
   #   enableSSHSupport = true;
   # };
 
-  # programs.hyprland = {
-  #   enable = true;
-  #   package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-  #   xwayland.enable = true;
-  # };
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    xwayland.enable = true;
+  };
 
   services.xserver.displayManager = {
     # defaultSession = "none+awesome";
-    defaultSession = "none+i3";
+    defaultSession = "hyprland";
   };
 
   # enalbe zsh
